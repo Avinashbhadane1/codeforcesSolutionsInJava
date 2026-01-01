@@ -1,42 +1,57 @@
-import java.util.Scanner;
+import java.io.*;
 
 public class beginnerZEN {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        if (scanner.hasNextInt()) {
-            int t = scanner.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder output = new StringBuilder();
 
-            while (t-- > 0) {
-                int n = scanner.nextInt();
-                String row1 = scanner.next();
-                String row2 = scanner.next();
+        int t = Integer.parseInt(br.readLine());
 
-                int ans = 0;
+        while (t-- > 0) {
+            int n = Integer.parseInt(br.readLine());
+            String row1 = br.readLine();
+            String row2 = br.readLine();
 
-                for (int i = 0; i < n; i++) {
-                    char c1 = row1.charAt(i);
-                    char c2 = row2.charAt(i);
+            int[] dp = new int[n + 1];
 
-                    if (c1 != c2) {
-                        ans += 2;
-                    } else if (c1 == '0') {
-                        if (i + 1 < n && row1.charAt(i+1) == '1' && row2.charAt(i+1) == '1') {
-                            ans += 2;
-                        } else {
-                            ans += 1;
-                        }
-                    } else {
-                        if (i + 1 < n && row1.charAt(i+1) == '0' && row2.charAt(i+1) == '0') {
-                            ans += 2;
-                            i++;
-                        } else {
-                        }
-                    }
+            for (int i = 1; i <= n; i++) {
+                char c1 = row1.charAt(i - 1);
+                char c2 = row2.charAt(i - 1);
+
+                int singleMex = getMex(c1, c2);
+                dp[i] = dp[i - 1] + singleMex;
+
+                if (i > 1) {
+                    char p1 = row1.charAt(i - 2);
+                    char p2 = row2.charAt(i - 2);
+
+                    int doubleMex = getMexBlock(c1, c2, p1, p2);
+
+                    dp[i] = Math.max(dp[i], dp[i - 2] + doubleMex);
                 }
-
-                System.out.println(ans);
             }
+
+            output.append(dp[n]).append("\n");
         }
-        scanner.close();
+
+        System.out.print(output);
+    }
+
+    private static int getMex(char c1, char c2) {
+        boolean hasZero = (c1 == '0' || c2 == '0');
+        boolean hasOne = (c1 == '1' || c2 == '1');
+
+        if (hasZero && hasOne) return 2;
+        if (hasZero) return 1;
+        return 0;
+    }
+
+    private static int getMexBlock(char c1, char c2, char p1, char p2) {
+        boolean hasZero = (c1 == '0' || c2 == '0' || p1 == '0' || p2 == '0');
+        boolean hasOne = (c1 == '1' || c2 == '1' || p1 == '1' || p2 == '1');
+
+        if (hasZero && hasOne) return 2;
+        if (hasZero) return 1;
+        return 0;
     }
 }
