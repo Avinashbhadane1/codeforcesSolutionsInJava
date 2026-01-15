@@ -20,10 +20,13 @@ public class cf2002B {
             int cStartB = 0;
             int removed = 0;
             while (removed++<n){
-                if(a[cEndA]==b[cEndB] && a[cStartA]==b[cStartA]|| a[cEndA]==b[cStartB] && ){
+                if(a[cEndA]==b[cEndB] && a[cStartA]==b[cStartA]|| a[cEndA]==b[cStartB] && a[cStartA]==b[cEndB] ){
                     cEndA--;
-                    cEndB--;
-                }else if()
+                    cStartB++;
+                }else if(a[cStartA]==b[cStartB]|| a[cStartA]== b[cEndB]){
+                    cEndA--;
+                    
+                }
             }
         }
         scanner.close();
