@@ -21,9 +21,6 @@ public class roughWork {
 //        System.out.println(b);
 //    }
 public static void main(String[] args) {
-    String name = "00215";
-    String a = "hello";
-    name  = a+name;
-    System.out.println(name+a);
+    System.out.println(998244360/9);
 }
 }
